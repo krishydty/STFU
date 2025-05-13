@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 export default function Home() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState<'idle'|'sending'|'success'|'error'>('idle');
+  const [status, setStatus] = useState('idle');  // plain string state
 
   const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -17,12 +17,11 @@ export default function Home() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+        body: JSON.stringify(form),
       });
-      if (res.ok) {
-        setStatus('success');
-        setForm({ name: '', email: '', message: '' });
-      } else throw new Error();
+      if (!res.ok) throw new Error();
+      setStatus('success');
+      setForm({ name: '', email: '', message: '' });
     } catch {
       setStatus('error');
     }
@@ -49,15 +48,23 @@ export default function Home() {
           />
           <textarea
             name="message" required placeholder="Your Message"
-            rows={4} value={form.message} onChange={handleChange}
+            rows="4" value={form.message} onChange={handleChange}
           />
-          <button type="submit" disabled={status==='sending'}>
-            {status==='sending' ? 'Sending…' : 'Send Query'}
+          <button type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Sending…' : 'Send Query'}
           </button>
         </form>
 
-        {status==='success' && <p className="feedback success">✅ Message sent! We’ll be in touch shortly.</p>}
-        {status==='error'   && <p className="feedback error">❌ Oops, something went wrong. Please try again later.</p>}
+        {status === 'success' && (
+          <p className="feedback success">
+            ✅ Message sent! We’ll be in touch shortly.
+          </p>
+        )}
+        {status === 'error' && (
+          <p className="feedback error">
+            ❌ Oops, something went wrong. Please try again later.
+          </p>
+        )}
       </div>
 
       <style jsx>{`
