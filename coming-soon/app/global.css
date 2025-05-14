@@ -1,0 +1,42 @@
+/* app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap'); /* Added 900 for bolder options */
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #ff6f91; /* Vibrant Pink */
+  --secondary-color: #a6c1ee; /* Light Blue from gradient */
+  --accent-color: #f9a826; /* Vibrant Yellow/Orange */
+  
+  --text-dark: #333;
+  --text-light: #666;
+  --text-on-dark: #f0f2f5; /* Light text for dark backgrounds */
+  --text-on-dark-muted: #cbd5e0; /* Slightly more muted light text */
+
+  --background-light: #ffffff;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --border-radius: 16px;
+
+  /* New Navbar Theme Variables */
+  --navbar-background: #1A202C; /* A deep charcoal/off-black - very bold */
+  /* Alternative: --navbar-background: linear-gradient(to right, #232526, #414345); */ /* Subtle dark gradient */
+  --navbar-text-color: var(--text-on-dark-muted); 
+  --navbar-text-hover-color: var(--primary-color);
+  --navbar-logo-color: var(--primary-color); /* Pink for the logo */
+  --navbar-logo-font-weight: 900; /* Ensure logo is bold */
+  --navbar-link-font-weight: 600;
+}
