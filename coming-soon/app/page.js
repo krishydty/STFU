@@ -138,7 +138,7 @@ export default function Home() {
 
         .hero-image {
           margin-bottom: 1.5rem;
-          border-radius: 12px; /* Slightly smaller radius for image container */
+          border-radius: 360px; /* Slightly smaller radius for image container */
           overflow: hidden;
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
@@ -146,7 +146,7 @@ export default function Home() {
         h1 {
           margin: 0 0 0.75rem;
           font-size: 3rem; /* Original size */
-          color: var(--text-dark);
+          color: black;
           letter-spacing: 1.5px; /* Slightly reduced letter spacing */
           font-weight: 700;
         }
@@ -154,20 +154,20 @@ export default function Home() {
         .subtitle {
           margin: 0 0 1.5rem;
           font-size: 1.3rem; /* Slightly larger */
-          color: var(--primary-color);
+          color: black;
           font-weight: 600;
         }
 
         .description {
           margin: 0 0 2rem;
           font-size: 1.05rem; /* Slightly larger for readability */
-          color: var(--text-light);
+          color: black;
           line-height: 1.7;
         }
 
         .cta-button {
           display: inline-block;
-          background-color: var(--primary-color);
+          background-color: red;
           color: white;
           padding: 0.8rem 2rem;
           border-radius: 50px; /* Pill shape */

@@ -1,119 +1,161 @@
 // components/Navbar.js
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Keep for potential future logo image
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  // inline logo style with elegant gradient
+  const logoStyle = {
+    fontSize: '2rem',
+    fontWeight: 700,
+    background: 'linear-gradient(90deg, #654ea3 0%, #eaafc8 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
+    letterSpacing: '1px',
+    textDecoration: 'none',
+  };
+
   return (
     <>
       <nav className="navbar">
         <div className="container">
-          <Link href="/" className="logo">
-            {/* If you have a logo image, you might want it to be a light version for dark background */}
-            {/* <Image src="/logo-light.png" alt="Style To Feel U Logo" width={50} height={50} /> */}
+          {/* Centered logo */}
+          <Link href="/" style={logoStyle}>
             Style To Feel U
           </Link>
-          <ul className="nav-links">
-            <li><Link href="#gallery" className="nav-link-item">Gallery</Link></li>
-            <li><Link href="#how-it-works" className="nav-link-item">How It Works</Link></li>
-            <li><Link href="#order" className="nav-link-item">Order Now</Link></li>
+
+          {/* Hamburger for mobile */}
+          <button
+            className="hamburger"
+            onClick={() => setOpen(o => !o)}
+            aria-label="Toggle menu"
+          >
+            <span className="bar" />
+            <span className="bar" />
+            <span className="bar" />
+          </button>
+
+          {/* Nav links on desktop / slide-down on mobile */}
+          <ul className={`nav-links${open ? ' open' : ''}`}>
             <li>
-              <a 
-                href="https://instagram.com/stfu_theshop" 
-                target="_blank" 
+              <Link href="#gallery" onClick={() => setOpen(false)}>
+                Gallery
+              </Link>
+            </li>
+            <li>
+              <Link href="#how-it-works" onClick={() => setOpen(false)}>
+                How It Works
+              </Link>
+            </li>
+            <li>
+              <Link href="#order" onClick={() => setOpen(false)}>
+                Order Now
+              </Link>
+            </li>
+            <li>
+              <a
+                href="https://instagram.com/stfu_theshop"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="nav-link-item instagram-link"
+                onClick={() => setOpen(false)}
               >
-                {/* Optional: Add an Instagram Icon here */}
                 Instagram
               </a>
             </li>
           </ul>
         </div>
       </nav>
+
       <style jsx>{`
         .navbar {
-          background: var(--navbar-background);
-          padding: 1rem 2rem; /* Keep padding or adjust (e.g., 1.25rem 2.5rem for more presence) */
+          background: rgba(3, 3, 3, 0.95);
+          padding: 1rem 2rem;
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
           z-index: 1000;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* A slightly stronger shadow for dark bg */
-          transition: background 0.3s ease-in-out; /* Smooth transition if bg ever changes */
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .container {
           max-width: 1200px;
           margin: 0 auto;
           display: flex;
-          justify-content: space-between;
+          justify-content: center;   /* center logo on desktop */
           align-items: center;
+          position: relative;        /* allow absolutely positioned nav-links */
         }
-        .logo {
-          font-size: 1.8rem; /* Slightly larger for more impact */
-          font-weight: var(--navbar-logo-font-weight);
-          color: var(--navbar-logo-color);
-          letter-spacing: 0.5px; /* Adjust spacing for aesthetics */
-          text-transform: uppercase; /* Optional: for a bolder look */
-        }
-        .logo:hover {
-          transform: scale(1.03); /* Slightly more subtle scale */
-          color: var(--accent-color); /* Change color on hover for more feedback */
-          /* Or use a brighter version of the primary color: filter: brightness(1.2); */
-        }
+
+        /* Desktop nav links: positioned to the right of the logo */
         .nav-links {
           list-style: none;
           display: flex;
-          gap: 2rem; /* Increased gap for a more spacious feel */
+          gap: 2rem;
           margin: 0;
           padding: 0;
-        }
-        .nav-link-item { /* Applied to both Link and <a> tags */
-          color: var(--navbar-text-color);
-          font-weight: var(--navbar-link-font-weight);
-          font-size: 1rem; /* Standard size, can be increased slightly */
-          transition: color 0.3s ease, transform 0.2s ease;
-          position: relative; /* For creative hover effects */
-          padding-bottom: 0.3rem; /* Space for underline effect */
-        }
-        .nav-link-item::after { /* Creative underline hover effect */
-          content: '';
           position: absolute;
-          width: 0;
-          height: 2px;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          background-color: var(--navbar-text-hover-color);
-          transition: width 0.3s ease;
+          right: 0rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--text-on-dark)
         }
-        .nav-link-item:hover::after {
-          width: 100%;
+        .nav-links li a {
+          color: var(--text-on-dark);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.3s;
         }
-        .nav-link-item:hover {
-          color: var(--navbar-text-hover-color);
-          transform: translateY(-2px); /* Slight lift on hover */
-        }
-        .instagram-link { /* Specific styling for instagram if needed */
-          /* For example, if you want it to stand out a bit more */
-          /* color: var(--accent-color); */ 
-        }
-        .instagram-link:hover {
-          /* color: var(--primary-color); */
+        .nav-links li a:hover {
+          color: #aaa;
         }
 
+        /* Hamburger icon (hidden on desktop) */
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 24px;
+          height: 18px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+        }
+        .bar {
+          width: 100%;
+          height: 3px;
+          background-color: #fff;
+          border-radius: 2px;
+        }
+
+        /* Mobile styles */
         @media (max-width: 768px) {
-          /* Consider a hamburger menu for mobile instead of just hiding */
-          .nav-links {
-            display: none; 
-          }
-          .logo {
-            font-size: 1.5rem; /* Adjust for smaller screens */
-          }
           .container {
-            justify-content: center;
+            justify-content: space-between; /* logo left, hamburger right */
+          }
+          .hamburger {
+            display: flex;
+          }
+          .nav-links {
+            display: none;
+          }
+          .nav-links.open {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: rgba(15, 15, 15, 0.95);
+            position: absolute;
+            top: 313%;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           }
         }
       `}</style>
