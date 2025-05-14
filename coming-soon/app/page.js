@@ -1,147 +1,152 @@
+// app/page.js
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('idle');  // plain string state
-
-  const handleChange = (e) => {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('sending');
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error();
-      setStatus('success');
-      setForm({ name: '', email: '', message: '' });
-    } catch {
-      setStatus('error');
-    }
-  };
-
   return (
     <main className="hero">
+      {/* Decorative blobs */}
+      <div className="blob blob1" />
+      <div className="blob blob2" />
+
       <div className="card">
+        {/* Hero product shot */}
+        <div className="hero-image">
+          <Image
+            src="/hero.png"
+            alt="Premium customizable tee"
+            width={500}
+            height={200}
+            priority
+          />
+        </div>
+
         <h1>STYLE TO FEEL U</h1>
         <p className="subtitle">Premium Quality &amp; Custom Prints</p>
         <p className="description">
-          Our custom-print premium garments are launching soon! 🤩<br/>
-          Got questions or want to pre-order? Drop us a line below.
+          We’re crafting top-tier customizable apparel just for you.<br/>
+          Got questions or want to pre-order? Fill out the form below!
         </p>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text" name="name" required placeholder="Your Name"
-            value={form.name} onChange={handleChange}
-          />
-          <input
-            type="email" name="email" required placeholder="Your Email"
-            value={form.email} onChange={handleChange}
-          />
-          <textarea
-            name="message" required placeholder="Your Message"
-            rows="4" value={form.message} onChange={handleChange}
-          />
-          <button type="submit" disabled={status === 'sending'}>
-            {status === 'sending' ? 'Sending…' : 'Send Query'}
-          </button>
-        </form>
+        <div className="form-wrapper">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdas_tjFKThaaSRjyJGLo_gFK6XF6EYoszxXgL2W3rlyp8H9A/viewform?embedded=true"
+            width="100%"
+            height="1000"
+            frameBorder="0"
+            marginHeight="0"
+            marginWidth="0"
+          >
+            Loading…
+          </iframe>
+        </div>
 
-        {status === 'success' && (
-          <p className="feedback success">
-            ✅ Message sent! We’ll be in touch shortly.
-          </p>
-        )}
-        {status === 'error' && (
-          <p className="feedback error">
-            ❌ Oops, something went wrong. Please try again later.
-          </p>
-        )}
+        <p className="footer">
+          Or follow us on&nbsp;
+          <a
+            href="https://instagram.com/stfu_theshop"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
+        </p>
       </div>
 
       <style jsx>{`
         .hero {
+          position: relative;
           min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+          background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+          padding: 2rem;
+          overflow: hidden;
           font-family: 'Poppins', sans-serif;
-          padding: 1rem;
+        }
+        .blob {
+          position: absolute;
+          background: radial-gradient(circle at center, #fff 0%, transparent 70%);
+          opacity: 0.3;
+          transform: rotate(45deg);
+        }
+        .blob1 {
+          width: 400px;
+          height: 400px;
+          top: -100px;
+          left: -100px;
+        }
+        .blob2 {
+          width: 600px;
+          height: 600px;
+          bottom: -200px;
+          right: -200px;
         }
         .card {
-          max-width: 400px;
-          width: 100%;
-          background: #fff;
-          border-radius: 16px;
+          position: relative;
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 24px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
           padding: 2rem;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+          max-width: 650px;
+          width: 100%;
           text-align: center;
+          z-index: 1;
+        }
+        .hero-image {
+          margin-bottom: 1.5rem;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         h1 {
           margin: 0 0 0.5rem;
-          font-size: 2.5rem;
+          font-size: 3rem;
           color: #333;
+          letter-spacing: 2px;
         }
         .subtitle {
           margin: 0 0 1rem;
-          font-size: 1.1rem;
+          font-size: 1.25rem;
           color: #555;
         }
         .description {
-          font-size: 0.95rem;
-          color: #666;
-          margin-bottom: 1.5rem;
-          line-height: 1.4;
-        }
-        form input,
-        form textarea {
-          width: 100%;
-          padding: 0.75rem;
-          margin-bottom: 1rem;
-          border: 2px solid #eee;
-          border-radius: 8px;
-          font-size: 0.9rem;
-          transition: border-color 0.2s;
-        }
-        form input:focus,
-        form textarea:focus {
-          border-color: #ff6f91;
-          outline: none;
-        }
-        button {
-          width: 100%;
-          padding: 0.75rem;
-          background: #ff6f91;
-          color: #fff;
-          border: none;
-          border-radius: 8px;
+          margin: 0 0 1.5rem;
           font-size: 1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.2s;
+          color: #666;
+          line-height: 1.6;
         }
-        button:disabled {
-          background: #ffadb5;
-          cursor: default;
+        .form-wrapper {
+          border: 3px solid #ff6f91;
+          border-radius: 16px;
+          overflow: hidden;
+          margin-bottom: 1.5rem;
         }
-        button:hover:not(:disabled) {
-          background: #ff4d6d;
+        iframe {
+          border: none;
         }
-        .feedback {
-          margin-top: 1rem;
+        .footer {
           font-size: 0.9rem;
+          color: #444;
         }
-        .feedback.success { color: #1a936f; }
-        .feedback.error   { color: #d00000; }
+        .footer a {
+          color: #d62828;
+          text-decoration: none;
+          font-weight: 600;
+        }
+        .footer a:hover {
+          text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+          .hero {
+            padding: 1rem;
+          }
+          h1 {
+            font-size: 2.25rem;
+          }
+        }
       `}</style>
     </main>
   );
